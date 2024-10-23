@@ -1,1 +1,2 @@
-# Advent of Code
+# Advent of Code Solutions
+This repository contains my solutions to the annual [Advent of Code](https://adventofcode.com) challenges. I solve these problems in various languages, each of which has its own folder in this repository.
