@@ -36,6 +36,7 @@ function solution_part1() {
 	}
 }
 
+
 function calculate_tower_weight(root_id) {
 	const program = programs[root_id];
 	program.tower_weight += program.weight;
@@ -45,7 +46,8 @@ function calculate_tower_weight(root_id) {
 	return program.tower_weight;
 }
 
-calculate_tower_weight("xegshds");
+root_program = solution_part1();
+calculate_tower_weight(root_program);
 
 function solution_part2(id, imbalance) {
 	const program = programs[id];
@@ -69,5 +71,5 @@ function solution_part2(id, imbalance) {
 	}
 }
 
-console.log("Solution Part 1: " + solution_part1());
-console.log("Solution Part 2: " + solution_part2(solution_part1()));
+console.log("Solution Part 1: " + solution_part1()); // could use root_program, but this is clearer.
+console.log("Solution Part 2: " + solution_part2(root_program));
