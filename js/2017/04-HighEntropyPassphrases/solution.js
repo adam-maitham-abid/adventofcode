@@ -1,50 +1,44 @@
-fs = require("fs");
-input = fs.readFileSync("input.txt", "ascii");
-passphrases = input.split("\r\n");
+const fs = require("fs");
+const input = fs.readFileSync("input.txt", "ascii");
+const passphrases = input.split(/\r?\n/);
 
 function solution_part1() {
-	valid_passphrases = 0;
+	let valid_passphrases = passphrases.length; // Innocent until proven guilty
 
 	for (passphrase of passphrases) {
-		valid_passphrases += 1; // Innocent until proven guilty
-		words = passphrase.split(" ");
-		word_instances = []
-		for (word of words) {
-			if (word_instances.includes(word)) {
-				valid_passphrases -= 1;
+		let words = passphrase.split(" ");
+		for (let i = 0; i < words.length; i++) {
+			// Check if first occurance of word is at a different index
+			if (words.indexOf(words[i]) !== i) {
+				valid_passphrases--;
 				break;
 			}
-			word_instances.push(word);
 		}
 	}
 
 	return valid_passphrases;
 }
 
-function solution_part2() {
-	valid_passphrases = 0;
+function is_anagram(first, second) {
+	if (first.length !== second.length) return false;
+	// JS's string.prototype.replace() replaces only the first instance, making it suitable for this.
+	for (char of first) second = second.replace(char, "");
+	return second.length === 0;
+}
 
-	for (passphrase of passphrases) {
-		valid = true;
-		words = passphrase.split(" ");
-		words_to_compare = [];
-		for (word of words) {
-			for (compared_word of words_to_compare) {
-				if (word.length != compared_word.length) continue;
-				word_chars = word;
-				for (char of compared_word) {
-					word_chars = word_chars.replace(char, "");
-				}
-				if (word_chars.length == 0) {
-					valid = false;
-					break;
+function solution_part2() {
+	let valid_passphrases = passphrases.length;
+
+	outer: for (passphrase of passphrases) {
+		let words = passphrase.split(" ");
+		for (let i = 0; i < words.length; i++) {
+			for (let j = 0; j < words.length; j++) {
+				if (i === j) continue;
+				if (is_anagram(words[i], words[j])) {
+					valid_passphrases--;
+					continue outer;
 				}
 			}
-			if (!valid) break;
-			words_to_compare.push(word);
-		}
-		if (valid) {
-			valid_passphrases += 1;
 		}
 	}
 
